@@ -1,0 +1,13 @@
+# Config directories
+.idea
+.vscode
+
+# Python directories
+build/
+.pytest_cache
+**/__pycache__
+venv
+src/vecmath.egg-info
+
+# cython generated extensions
+src/vecmath/*.cpython-*
