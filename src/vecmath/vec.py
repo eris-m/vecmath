@@ -12,15 +12,16 @@ else:
 
 @cython.cclass
 class Vec:
-    """
-    A 4-Dimensional Vector, _with components _x, _y, _z, _w.
-
-    """
+    """A 4D Vector."""
 
     _x: cython.float
     _y: cython.float
     _z: cython.float
     _w: cython.float
+
+    ############
+    # Arithmetic
+    ############
 
     def dot(self, other: "Vec") -> "Vec":
         r"""
@@ -60,82 +61,14 @@ class Vec:
 
         return Vec(x, y, z, w)
 
-    ################
-    # Properties
-    ################
-
-    @property
-    def x(self) -> float:
-        """
-        X Component of the vector.
-        """
-        return self._x
-
-    @x.setter
-    def x(self, value: float):
-        self._x = value
-
-    @property
-    def y(self) -> float:
-        """
-        Y Component of the vector.
-        """
-        return self._y
-
-    @y.setter
-    def y(self, value: float):
-        self._y = value
-
-    @property
-    def z(self) -> float:
-        """
-        Z Component of the vector.
-        """
-        return self._z
-
-    @z.setter
-    def z(self, value: float):
-        self._z = value
-
-    @property
-    def w(self) -> float:
-        """
-        W Component of the vector.
-        """
-        return self._w
-
-    @w.setter
-    def w(self, value: float):
-        self._w = value
-
-    ################
-    # Dunder methods
-    ################
-
-    def __init__(self, x: float = 0.0, y: float = 0.0, z: float = 0.0, w: float = 0.0):
-        """
-        Creates a vector.
-
-        By default all components = 0, this allows a shorthand way of creating 2d, and 3d vectors,
-        ``Vec(x, y)`` compared to ``Vec(x, y, 0.0, 0.0)``
-
-
-        :param x: X Component.
-        :param y: Y Component.
-        :param z: Z Component.
-        :param w: W Component.
-        """
-        self._x = x
-        self._y = y
-        self._z = z
-        self._w = w
-
     def add_vec(self, other: "Vec") -> "Vec":
-        """
-        Adds a vector to a self.
+        """Adds a vector to self and returns the result
 
-        :param other: Other vector to add.
-        :return: Self + Other vector, as a vector.
+        Args:
+            other (Vec): Other vector to add
+
+        Returns:
+            Vec: Self + Other
         """
 
         # dimensions
@@ -145,12 +78,14 @@ class Vec:
         w = self._w + other._w
         return Vec(x, y, z, w)
 
-    def add_scalar(self, other) -> "Vec":
-        """
-        Adds a scalar to self.
+    def add_scalar(self, other: cython.float) -> "Vec":
+        """Adds a scalar to self and returns the result
 
-        :param other: Scalar (regular number) to add.
-        :return: Vector self+other
+        Args:
+            other (Number): Scalar to add
+
+        Returns:
+            Vec: Self + Other
         """
 
         # dimensions
@@ -161,20 +96,106 @@ class Vec:
         return Vec(x, y, z, w)
 
     def sub_vec(self, other: "Vec") -> "Vec":
+        """Subtracts a vector from self and returns result
+
+        Args:
+            other (Vec): Vector to subract
+
+        Returns:
+            Vec: Self - Other
+        """
         x = self._x - other._x
         y = self._y - other._y
         z = self._z - other._z
         w = self._w - other._w
         return Vec(x, y, z, w)
 
-    def sub_scalar(self, other):
+    def sub_scalar(self, other: cython.float) -> "Vec":
+        """Subtracts a scalar from self and returns result
+
+        Args:
+            other (float): Scalar to subtract
+
+        Returns:
+            Vec: Self - Other
+        """
         x = self._x - other
         y = self._y - other
         z = self._z - other
         w = self._w - other
         return Vec(x, y, z, w)
 
+    ################
+    # Properties
+    ################
+
+    @property
+    def x(self) -> float:
+        """X Component of the vector."""
+        return self._x
+
+    @x.setter
+    def x(self, value: cython.float):
+        self._x = value
+
+    @property
+    def y(self) -> float:
+        """Y Component of the vector."""
+        return self._y
+
+    @y.setter
+    def y(self, value: cython.float):
+        self._y = value
+
+    @property
+    def z(self) -> float:
+        """
+        Z Component of the vector.
+        """
+        return self._z
+
+    @z.setter
+    def z(self, value: cython.float):
+        self._z = value
+
+    @property
+    def w(self) -> float:
+        """
+        W Component of the vector.
+        """
+        return self._w
+
+    @w.setter
+    def w(self, value: cython.float):
+        self._w = value
+
+    #####################
+    # Dunder (__) methods
+    #####################
+
+    def __init__(
+        self,
+        x: cython.float = 0.0,
+        y: cython.float = 0.0,
+        z: cython.float = 0.0,
+        w: cython.float = 0.0,
+    ):
+        """Creates a 4D vector.
+        All components are assumed to be 0 if not specified.
+
+        Args:
+            x (float, optional): X Component. Defaults to 0.0.
+            y (float, optional): Y Component. Defaults to 0.0.
+            z (float, optional): Z Component. Defaults to 0.0.
+            w (float, optional): W Component. Defaults to 0.0.
+        """
+        self._x = x
+        self._y = y
+        self._z = z
+        self._w = w
+
     def __eq__(self, other: "Vec") -> bool:
+        """Checks equality with other vector"""
         return self.x == other.x and self.y == other.y and self._z == other.z
 
     def __format__(self, spec):
